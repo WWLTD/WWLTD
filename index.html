@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WW LTD - 专业服务解决方案</title>
+    <style>
+        /* 全局样式 */
+        :root {
+            --primary-color: #003366; /* 深蓝 */
+            --secondary-color: #f4f4f4;
+            --accent-color: #e74c3c; /* 强调色 */
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        /* 导航栏 */
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .cart-btn {
+            background: var(--accent-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .cart-btn:hover {
+            background: #c0392b;
+        }
+
+        /* 英雄区域 (Hero Section) */
+        .hero {
+            background: linear-gradient(rgba(0,51,102,0.8), rgba(0,51,102,0.8)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; max-width: 600px; }
+
+        /* 产品列表 */
+        .container {
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2.section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: white;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background: var(--secondary-color);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header h3 { margin: 0; color: var(--primary-color); }
+
+        .card-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .price {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btn-add {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-add:hover { background: #002244; }
+
+        /* 页脚 */
+        footer {
+            background: #222;
+            color: #aaa;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        /* 购物车/结账模态框 (Modal) */
+        .modal {
+            display: none; /* 默认隐藏 */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .cart-items {
+            margin: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .total-price {
+            text-align: right;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        /* 表单样式 */
+        .checkout-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-checkout {
+            background: #27ae60; /* 绿色 */
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn-checkout:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* 成功消息 */
+        .success-message {
+            display: none;
+            text-align: center;
+            color: #27ae60;
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="logo">WW LTD</div>
+        <nav>
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#products">服务与产品</a></li>
+                <li onclick="openCart()" class="cart-btn">
+                    购物车 (<span id="cart-count">0</span>)
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="hero">
+        <h1>WW LTD 企业解决方案</h1>
+        <p>为您提供世界一流的技术咨询、产品开发与企业服务。</p>
+    </section>
+
+    <!-- 产品与价格 -->
+    <section id="products" class="container">
+        <h2 class="section-title">我们的服务与价格</h2>
+        <div class="products-grid">
+            
+            <!-- 产品 1 -->
+            <div class="product-card">
+                <div class="card-header">
+                    <h3>基础咨询服务</h3>
+                </div>
+                <div class="card-body">
+                    <div class="price">¥ 2,999</div>
+                    <ul class="features">
+                        <li>✅ 初步业务分析</li>
+                        <li>✅ 市场调研报告</li>
+                        <li>✅ 电子邮件支持</li>
+                        <li>❌ 专属客户经理</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('基础咨询服务', 2999)">加入购物车</button>
+                </div>
+            </div>
+
+            <!-- 产品 2 -->
+            <div class="product-card">
+                <div class="card-header">
+                    <h3>专业版解决方案</h3>
+                </div>
+                <div class="card-body">
+                    <div class="price">¥ 5,999</div>
+                    <ul class="features">
+                        <li>✅ 深度业务分析与策略</li>
+                        <li>✅ 详细执行计划书</li>
+                        <li>✅ 7x24小时 电话支持</li>
+                        <li>✅ 月度进度会议</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('专业版解决方案', 5999)">加入购物车</button>
+                </div>
+            </div>
+
+            <!-- 产品 3 -->
+            <div class="product-card">
+                <div class="card-header">
+                    <h3>企业旗舰定制</h3>
+                </div>
+                <div class="card-body">
+                    <div class="price">¥ 12,999</div>
+                    <ul class="features">
+                        <li>✅ 全套定制化开发</li>
+                        <li>✅ 专属项目团队 (3人)</li>
+                        <li>✅ 现场技术支持</li>
+                        <li>✅ 终身维护服务</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('企业旗舰定制', 12999)">加入购物车</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>&copy; 2023 WW LTD. 保留所有权利。</p>
+    </footer>
+
+    <!-- 结账弹窗 (Modal) -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCart()">&times;</span>
+            
+            <div id="checkout-view">
+                <h2>您的购物车</h2>
+                <div id="cart-items-container" class="cart-items">
+                    <p style="text-align: center; color: #999;">购物车是空的</p>
+                </div>
+                <div class="total-price">
+                    总计: ¥ <span id="cart-total">0</span>
+                </div>
+
+                <h3>结账信息</h3>
+                <form id="payment-form" class="checkout-form" onsubmit="processPayment(event)">
+                    <input type="text" placeholder="姓名 / 公司名称" required>
+                    <input type="email" placeholder="电子邮箱" required>
+                    <input type="text" placeholder="信用卡号 (仅模拟: 1234 5678...)" pattern="\d*" maxlength="19" required>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" placeholder="MM/YY" style="width: 50%;" required>
+                        <input type="text" placeholder="CVC" style="width: 50%;" required>
+                    </div>
+                    <button type="submit" id="pay-btn" class="btn-checkout" disabled>立即支付</button>
+                </form>
+            </div>
+
+            <div id="success-view" class="success-message">
+                <div class="success-icon">🎉</div>
+                <h3>支付成功！</h3>
+                <p>感谢您选择 WW LTD。</p>
+                <p>确认邮件已发送至您的邮箱。</p>
+                <button class="btn-add" onclick="closeCart()" style="margin-top: 20px;">关闭</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // 购物车数据存储
+        let cart = [];
+
+        // 添加到购物车
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartUI();
+            
+            // 简单的动画反馈
+            alert(`已将 "${name}" 加入购物车`);
+        }
+
+        // 更新购物车UI和逻辑
+        function updateCartUI() {
+            // 更新导航栏数量
+            document.getElementById('cart-count').innerText = cart.length;
+
+            // 更新模态框内的列表
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+            const payBtn = document.getElementById('pay-btn');
+
+            container.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999;">购物车是空的</p>';
+                payBtn.disabled = true;
+            } else {
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <span>${item.name}</span>
+                        <span>¥ ${item.price.toLocaleString()} <a href="#" onclick="removeItem(${index})" style="color:red; font-size:0.8rem; margin-left:5px;">[删除]</a></span>
+                    `;
+                    container.appendChild(div);
+                });
+                payBtn.disabled = false;
+            }
+
+            totalEl.innerText = total.toLocaleString();
+        }
+
+        // 移除商品
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        // 打开购物车模态框
+        function openCart() {
+            // 重置视图
+            document.getElementById('checkout-view').style.display = 'block';
+            document.getElementById('success-view').style.display = 'none';
+            
+            const modal = document.getElementById('cartModal');
+            modal.style.display = 'flex';
+        }
+
+        // 关闭购物车
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('cartModal');
+            if (event.target == modal) {
+                closeCart();
+            }
+        }
+
+        // 模拟支付处理
+        function processPayment(e) {
+            e.preventDefault(); // 阻止表单默认提交
+            
+            const payBtn = document.getElementById('pay-btn');
+            const originalText = payBtn.innerText;
+            
+            // 模拟加载状态
+            payBtn.innerText = "处理中...";
+            payBtn.disabled = true;
+
+            // 模拟网络延迟 (2秒)
+            setTimeout(() => {
+                // 支付成功逻辑
+                cart = []; // 清空购物车
+                updateCartUI();
+                
+                document.getElementById('checkout-view').style.display = 'none';
+                document.getElementById('success-view').style.display = 'block';
+                
+                // 恢复按钮状态以便下次使用
+                payBtn.innerText = originalText;
+                payBtn.disabled = false;
+                document.getElementById('payment-form').reset();
+                
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
