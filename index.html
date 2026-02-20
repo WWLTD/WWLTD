@@ -2,495 +2,507 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WW LTD - 专业服务解决方案</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WW LTD | 顶尖AI产品与咨询服务</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { iosBg: '#f5f5f7', iosDark: '#1c1c1e' },
+                    transitionTimingFunction: { 'apple': 'cubic-bezier(0.32, 0.72, 0, 1)' }
+                }
+            }
+        }
+    </script>
     <style>
-        /* 全局样式 */
-        :root {
-            --primary-color: #003366; /* 深蓝 */
-            --secondary-color: #f4f4f4;
-            --accent-color: #e74c3c; /* 强调色 */
-            --text-color: #333;
-        }
-
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            color: var(--text-color);
-        }
-
-        /* 导航栏 */
-        header {
-            background: var(--primary-color);
-            color: white;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        .cart-btn {
-            background: var(--accent-color);
-            padding: 5px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .cart-btn:hover {
-            background: #c0392b;
-        }
-
-        /* 英雄区域 (Hero Section) */
-        .hero {
-            background: linear-gradient(rgba(0,51,102,0.8), rgba(0,51,102,0.8)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; max-width: 600px; }
-
-        /* 产品列表 */
-        .container {
-            padding: 40px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h2.section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            color: var(--primary-color);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .product-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            background: white;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .card-header {
-            background: var(--secondary-color);
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .card-header h3 { margin: 0; color: var(--primary-color); }
-
-        .card-body {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .price {
-            font-size: 2rem;
-            color: var(--primary-color);
-            font-weight: bold;
-            margin: 15px 0;
-        }
-
-        .features {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 20px;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        .features li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .btn-add {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-
-        .btn-add:hover { background: #002244; }
-
-        /* 页脚 */
-        footer {
-            background: #222;
-            color: #aaa;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-
-        /* 购物车/结账模态框 (Modal) */
-        .modal {
-            display: none; /* 默认隐藏 */
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .close-btn {
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #aaa;
-        }
-
-        .cart-items {
-            margin: 20px 0;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .total-price {
-            text-align: right;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-
-        /* 表单样式 */
-        .checkout-form input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .btn-checkout {
-            background: #27ae60; /* 绿色 */
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        .btn-checkout:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        /* 成功消息 */
-        .success-message {
-            display: none;
-            text-align: center;
-            color: #27ae60;
-        }
-
-        .success-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
+        html { scroll-behavior: smooth; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background-color: #f5f5f7; transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 毛玻璃效果 */
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .glass-overlay { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        
+        /* 强对比渐变 */
+        .text-gradient { background: linear-gradient(135deg, #000000, #555555); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .icon-gradient { background: linear-gradient(135deg, #222, #000); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* 卡片悬浮动画 */
+        .hover-card-fx:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 25px 50px rgba(0,0,0,0.06); }
     </style>
 </head>
-<body>
+<body class="text-gray-900 overflow-x-hidden">
 
-    <!-- 导航栏 -->
-    <header>
-        <div class="logo">WW LTD</div>
-        <nav>
-            <ul>
-                <li><a href="#home">首页</a></li>
-                <li><a href="#products">服务与产品</a></li>
-                <li onclick="openCart()" class="cart-btn">
-                    购物车 (<span id="cart-count">0</span>)
-                </li>
-            </ul>
-        </nav>
+    <!-- iOS 风格毛玻璃导航栏 -->
+    <nav class="fixed w-full z-40 top-0 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-14 items-center">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="font-extrabold text-2xl tracking-tighter">WW <span class="text-gray-400 font-light">LTD</span></span>
+                </div>
+                <div class="hidden md:flex space-x-10">
+                    <a href="#products" class="text-sm font-medium text-gray-800 hover:text-black transition">AI 产品</a>
+                    <a href="#services" class="text-sm font-medium text-gray-800 hover:text-black transition">咨询服务</a>
+                </div>
+                <div class="flex items-center">
+                    <button onclick="toggleCart()" class="relative p-2 text-gray-800 hover:text-black transition flex items-center gap-2">
+                        <span class="text-sm font-bold hidden sm:block">结账</span>
+                        <i class="fas fa-bag-shopping text-xl"></i>
+                        <span id="cart-count" class="absolute top-0 right-0 bg-black text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 强对比主视觉 Hero Section -->
+    <header class="pt-32 pb-20 bg-black text-white text-center flex flex-col items-center justify-center min-h-[70vh]">
+        <div class="w-24 h-24 mb-8 text-5xl text-white bg-white/10 rounded-3xl flex items-center justify-center backdrop-blur-md shadow-2xl animate-pulse">
+            <i class="fas fa-microchip"></i>
+        </div>
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4 text-white">
+            引领智能，定义未来。
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-400 font-light mb-10 max-w-2xl px-4">
+            WW LTD 为您提供业界顶尖的 AI 实体产品与企业级战略咨询服务。
+        </p>
+        <div class="flex gap-4">
+            <a href="#products" class="bg-white text-black px-8 py-3 rounded-full font-semibold hover:scale-105 transition-transform duration-300 shadow-lg">选购产品</a>
+            <a href="#services" class="bg-transparent border border-gray-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-black transition-all duration-300">订阅服务</a>
+        </div>
     </header>
 
-    <!-- 英雄区域 -->
-    <section id="home" class="hero">
-        <h1>WW LTD 企业解决方案</h1>
-        <p>为您提供世界一流的技术咨询、产品开发与企业服务。</p>
-    </section>
-
-    <!-- 产品与价格 -->
-    <section id="products" class="container">
-        <h2 class="section-title">我们的服务与价格</h2>
-        <div class="products-grid">
-            
-            <!-- 产品 1 -->
-            <div class="product-card">
-                <div class="card-header">
-                    <h3>基础咨询服务</h3>
-                </div>
-                <div class="card-body">
-                    <div class="price">¥ 2,999</div>
-                    <ul class="features">
-                        <li>✅ 初步业务分析</li>
-                        <li>✅ 市场调研报告</li>
-                        <li>✅ 电子邮件支持</li>
-                        <li>❌ 专属客户经理</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('基础咨询服务', 2999)">加入购物车</button>
-                </div>
+    <!-- 主体内容区 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-32 relative z-10">
+        
+        <!-- AI 产品板块 (高亮白色卡片) -->
+        <section id="products" class="scroll-mt-20">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-gradient">AI 产品系列</h2>
+                <p class="text-gray-500 text-lg">开箱即用的强大算力与智能体软件。</p>
             </div>
-
-            <!-- 产品 2 -->
-            <div class="product-card">
-                <div class="card-header">
-                    <h3>专业版解决方案</h3>
-                </div>
-                <div class="card-body">
-                    <div class="price">¥ 5,999</div>
-                    <ul class="features">
-                        <li>✅ 深度业务分析与策略</li>
-                        <li>✅ 详细执行计划书</li>
-                        <li>✅ 7x24小时 电话支持</li>
-                        <li>✅ 月度进度会议</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('专业版解决方案', 5999)">加入购物车</button>
-                </div>
+            <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 产品由 JS 动态渲染 -->
             </div>
+        </section>
 
-            <!-- 产品 3 -->
-            <div class="product-card">
-                <div class="card-header">
-                    <h3>企业旗舰定制</h3>
-                </div>
-                <div class="card-body">
-                    <div class="price">¥ 12,999</div>
-                    <ul class="features">
-                        <li>✅ 全套定制化开发</li>
-                        <li>✅ 专属项目团队 (3人)</li>
-                        <li>✅ 现场技术支持</li>
-                        <li>✅ 终身维护服务</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('企业旗舰定制', 12999)">加入购物车</button>
-                </div>
+        <!-- 咨询服务板块 (深色质感卡片) -->
+        <section id="services" class="scroll-mt-20">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-gradient">企业咨询服务</h2>
+                <p class="text-gray-500 text-lg">顶尖智库团队，为您量身定制战略方案。</p>
             </div>
+            <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 服务由 JS 动态渲染 -->
+            </div>
+        </section>
 
+    </main>
+
+    <!-- 极简页脚 -->
+    <footer class="bg-white border-t border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+            <p>Copyright © 2024 WW LTD. 保留所有权利。</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-black transition">隐私政策</a>
+                <a href="#" class="hover:text-black transition">购买条款</a>
+            </div>
         </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer>
-        <p>&copy; 2023 WW LTD. 保留所有权利。</p>
     </footer>
 
-    <!-- 结账弹窗 (Modal) -->
-    <div id="cartModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeCart()">&times;</span>
+    <!-- 产品/服务动态详情弹窗 (iOS App Store 风格) -->
+    <div id="detail-modal" class="fixed inset-0 z-50 hidden flex justify-center items-end md:items-center opacity-0 transition-opacity duration-500">
+        <div class="absolute inset-0 glass-overlay cursor-pointer" onclick="closeDetail()"></div>
+        
+        <div id="detail-container" class="bg-white w-full max-w-4xl h-[90vh] md:h-[80vh] md:rounded-[2rem] rounded-t-[2rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-500 ease-apple relative z-10 overflow-hidden">
             
-            <div id="checkout-view">
-                <h2>您的购物车</h2>
-                <div id="cart-items-container" class="cart-items">
-                    <p style="text-align: center; color: #999;">购物车是空的</p>
-                </div>
-                <div class="total-price">
-                    总计: ¥ <span id="cart-total">0</span>
-                </div>
-
-                <h3>结账信息</h3>
-                <form id="payment-form" class="checkout-form" onsubmit="processPayment(event)">
-                    <input type="text" placeholder="姓名 / 公司名称" required>
-                    <input type="email" placeholder="电子邮箱" required>
-                    <input type="text" placeholder="信用卡号 (仅模拟: 1234 5678...)" pattern="\d*" maxlength="19" required>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" placeholder="MM/YY" style="width: 50%;" required>
-                        <input type="text" placeholder="CVC" style="width: 50%;" required>
-                    </div>
-                    <button type="submit" id="pay-btn" class="btn-checkout" disabled>立即支付</button>
-                </form>
+            <button onclick="closeDetail()" class="absolute top-6 right-6 z-20 bg-black/10 hover:bg-black/20 text-black rounded-full w-10 h-10 flex items-center justify-center transition backdrop-blur-md">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+            
+            <div class="overflow-y-auto no-scrollbar flex-1 relative" id="detail-content">
+                <!-- 详情内容由 JS 注入 -->
             </div>
 
-            <div id="success-view" class="success-message">
-                <div class="success-icon">🎉</div>
-                <h3>支付成功！</h3>
-                <p>感谢您选择 WW LTD。</p>
-                <p>确认邮件已发送至您的邮箱。</p>
-                <button class="btn-add" onclick="closeCart()" style="margin-top: 20px;">关闭</button>
+            <!-- 底部吸附价格与购买栏 -->
+            <div class="bg-white/90 backdrop-blur-lg border-t border-gray-100 p-5 md:p-6 flex justify-between items-center shadow-[0_-10px_20px_rgba(0,0,0,0.03)] z-20" id="detail-action-bar">
+                <!-- 购买操作由 JS 注入 -->
             </div>
-
         </div>
     </div>
 
+    <!-- 商业级结账页面 (侧边栏滑出) -->
+    <div id="cart-modal" class="fixed inset-0 z-50 hidden flex justify-end opacity-0 transition-opacity duration-500">
+        <div class="absolute inset-0 glass-overlay cursor-pointer" onclick="toggleCart()"></div>
+        
+        <div id="cart-container" class="bg-white w-full md:w-[480px] h-full shadow-2xl flex flex-col transform translate-x-full transition-transform duration-500 ease-apple relative z-10">
+            
+            <div class="flex justify-between items-center p-6 border-b border-gray-100 bg-white z-10">
+                <h2 class="text-2xl font-extrabold tracking-tight">结账</h2>
+                <button onclick="toggleCart()" class="text-gray-400 hover:text-black transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto no-scrollbar flex-1 flex flex-col" id="checkout-content">
+                
+                <div id="empty-cart-msg" class="flex-1 flex flex-col items-center justify-center text-gray-400 py-10">
+                    <i class="fas fa-bag-shopping text-5xl mb-4 text-gray-200"></i>
+                    <p class="text-lg font-medium">您的购物车是空的</p>
+                </div>
+
+                <div id="cart-has-items" class="hidden flex-1 flex flex-col">
+                    <!-- 购物车商品列表 -->
+                    <div id="cart-items" class="space-y-4 mb-6"></div>
+                    
+                    <div class="flex justify-between items-center text-2xl font-black border-t border-gray-100 pt-6 mb-8">
+                        <span>总计</span>
+                        <span id="cart-total" class="text-black">¥0.00</span>
+                    </div>
+
+                    <!-- 真实电商结账表单 -->
+                    <form id="checkout-form" onsubmit="processPayment(event)" class="space-y-6 flex-1 flex flex-col">
+                        
+                        <!-- 配送/账单信息 -->
+                        <div>
+                            <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-3">联系人与地址信息</h3>
+                            <div class="bg-iosBg rounded-2xl p-2 space-y-1 border border-gray-200">
+                                <input type="text" required placeholder="姓名" class="w-full bg-transparent px-3 py-2 outline-none border-b border-gray-200 focus:border-black transition text-sm">
+                                <input type="email" required placeholder="电子邮箱" class="w-full bg-transparent px-3 py-2 outline-none border-b border-gray-200 focus:border-black transition text-sm">
+                                <input type="text" required placeholder="详细地址 (用于产品发货或账单)" class="w-full bg-transparent px-3 py-2 outline-none focus:border-black transition text-sm">
+                            </div>
+                        </div>
+                        
+                        <!-- 信用卡支付信息 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3 text-sm">
+                                <h3 class="font-bold text-gray-900 uppercase tracking-wider">信用卡支付</h3>
+                                <div class="flex gap-2 text-xl text-gray-800">
+                                    <i class="fab fa-cc-visa"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                    <i class="fab fa-cc-amex"></i>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-2xl p-1 border border-gray-300 shadow-sm focus-within:border-black focus-within:ring-1 focus-within:ring-black transition">
+                                <input type="text" required placeholder="卡号 0000 0000 0000 0000" class="w-full bg-transparent px-4 py-3 outline-none border-b border-gray-200 text-sm font-mono">
+                                <div class="grid grid-cols-2">
+                                    <input type="text" required placeholder="有效期 MM/YY" class="w-full bg-transparent px-4 py-3 outline-none border-r border-gray-200 text-sm font-mono">
+                                    <input type="text" required placeholder="安全码 CVC" class="w-full bg-transparent px-4 py-3 outline-none text-sm font-mono">
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2 flex items-center gap-1"><i class="fas fa-lock"></i> 付款信息经过安全加密处理 (模拟)</p>
+                        </div>
+                        
+                        <!-- 支付按钮 -->
+                        <div class="mt-auto pt-4">
+                            <button type="submit" id="pay-btn" class="w-full bg-black text-white font-bold text-lg py-4 rounded-2xl hover:bg-gray-800 hover:shadow-xl transition-all duration-300 flex justify-center items-center">
+                                <span>确认付款并结账</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS 逻辑与数据交互 -->
     <script>
-        // 购物车数据存储
+        // --- 核心数据 (产品、服务与明确的价格) ---
+        const productsList = [
+            { 
+                id: 'p1', type: 'product', name: 'WW AI Server Pro', 
+                brief: '企业级私有化 AI 算力服务器，开箱即用。', 
+                desc: '搭载最新一代超级计算芯片，专为内部大模型微调和推理设计。塔式机箱，极致静音散热系统，直接插电即可在局域网内部署千亿参数大模型，数据零外流。',
+                features: ['双路 128 核处理器', '256GB 超大显存', '内置 WW OS 系统', '3年免费硬件保修'],
+                price: 189900, icon: 'fa-server', bg: 'bg-white text-black' 
+            },
+            { 
+                id: 'p2', type: 'product', name: 'WW Agent 商业授权', 
+                brief: '全自动化的 AI 智能体软件，终身授权版本。', 
+                desc: '革命性的 AI 软件许可。安装后，您的员工可以通过自然语言让 AI 操作 Excel、发送邮件、调取 CRM 数据。极大提升企业运转效率。',
+                features: ['终身买断制授权', '支持 100+ 软件接口', '可视化工作流编排', '支持最高 500 个并发节点'],
+                price: 59900, icon: 'fa-robot', bg: 'bg-white text-black'
+            },
+            { 
+                id: 'p3', type: 'product', name: 'WW Vision 智能摄像头', 
+                brief: '内置边缘 AI 计算的工业级视觉监控设备。', 
+                desc: '无需连接云端，摄像头内部直接进行 AI 图像识别。可用于工厂缺陷检测、仓库库存自动盘点、办公区异常情况预警。',
+                features: ['4K 超清星光级夜视', '毫秒级本地 AI 识别', 'IP68 级防尘防水', '支持 API 实时告警输出'],
+                price: 8999, icon: 'fa-camera', bg: 'bg-white text-black'
+            }
+        ];
+
+        const servicesList = [
+            { 
+                id: 's1', type: 'service', name: '高管 AI 战略规划 (包月)', 
+                brief: '由前麦肯锡合伙人领衔，制定企业 AI 转型蓝图。', 
+                desc: '我们将派遣资深顾问团队入驻您的企业（限期 30 天）。深度诊断业务痛点，出具可落地的 AI 商业化路线图与投资回报率(ROI)分析报告。',
+                features: ['企业痛点深度尽调', '定制化架构蓝图', '竞争对手 AI 布局分析', '高管团队认知培训'],
+                price: 150000, icon: 'fa-map', bg: 'bg-iosDark text-white'
+            },
+            { 
+                id: 's2', type: 'service', name: '行业大模型微调服务', 
+                brief: '用您的私有数据，训练出最懂您业务的专属 AI。', 
+                desc: '标准的 AI 不懂您的行业黑话和内部流程。只需提供您的历史文档、客服记录或财务数据，我们的算法工程师将为您微调出专属的行业专家模型。',
+                features: ['数据清洗与脱敏', '核心算法调优', '准确率测试报告', '模型无缝集成到业务'],
+                price: 85000, icon: 'fa-brain', bg: 'bg-iosDark text-white'
+            }
+        ];
+
         let cart = [];
 
-        // 添加到购物车
-        function addToCart(name, price) {
-            cart.push({ name, price });
-            updateCartUI();
-            
-            // 简单的动画反馈
-            alert(`已将 "${name}" 加入购物车`);
+        // --- 渲染首页卡片 ---
+        function renderItems() {
+            const renderCard = (item) => `
+                <div onclick="openDetail('${item.id}', '${item.type}')" class="${item.bg} hover-card-fx rounded-[2rem] p-8 shadow-sm cursor-pointer border ${item.bg.includes('white') ? 'border-gray-200' : 'border-gray-800 hover:border-gray-600'} transition-all duration-500 flex flex-col group h-full relative overflow-hidden">
+                    <div class="h-20 w-20 rounded-2xl ${item.bg.includes('white') ? 'bg-gray-100 text-black' : 'bg-gray-800 text-white'} flex justify-center items-center text-4xl mb-6 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                        <i class="fas ${item.icon}"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold tracking-tight mb-2 relative z-10">${item.name}</h3>
+                    <p class="${item.bg.includes('white') ? 'text-gray-500' : 'text-gray-400'} text-sm leading-relaxed mb-6 flex-1 relative z-10">${item.brief}</p>
+                    <div class="flex justify-between items-center pt-5 border-t ${item.bg.includes('white') ? 'border-gray-100' : 'border-gray-800'} relative z-10">
+                        <span class="text-xl font-bold">¥${item.price.toLocaleString()}</span>
+                        <span class="text-sm font-semibold uppercase ${item.bg.includes('white') ? 'text-blue-600' : 'text-white'}">查看详情 <i class="fas fa-chevron-right ml-1 text-xs"></i></span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('products-container').innerHTML = productsList.map(renderCard).join('');
+            document.getElementById('services-container').innerHTML = servicesList.map(renderCard).join('');
         }
 
-        // 更新购物车UI和逻辑
+        // --- 详情弹窗逻辑 ---
+        let currentItem = null;
+        
+        function openDetail(id, type) {
+            const sourceList = type === 'product' ? productsList : servicesList;
+            currentItem = sourceList.find(p => p.id === id);
+            if (!currentItem) return;
+
+            const content = document.getElementById('detail-content');
+            const actionBar = document.getElementById('detail-action-bar');
+            
+            const isDark = currentItem.bg.includes('iosDark');
+            const headerBg = isDark ? 'bg-iosDark text-white' : 'bg-gray-50 text-black';
+
+            // 渲染详情区
+            content.innerHTML = `
+                <div class="${headerBg} pt-20 pb-16 px-6 flex flex-col items-center justify-center relative border-b ${isDark ? 'border-gray-800' : 'border-gray-200'}">
+                    <i class="fas ${currentItem.icon} text-7xl md:text-8xl mb-6 ${isDark ? 'text-white' : 'icon-gradient'} drop-shadow-lg transition-transform hover:scale-110 duration-500"></i>
+                    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-center">${currentItem.name}</h2>
+                    <span class="mt-4 px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full ${isDark ? 'bg-gray-800 text-gray-300' : 'bg-gray-200 text-gray-600'}">${type === 'product' ? '硬件/软件产品' : '专业咨询服务'}</span>
+                </div>
+                
+                <div class="p-8 md:p-12 max-w-4xl mx-auto">
+                    <p class="text-xl md:text-2xl font-medium text-gray-800 leading-relaxed mb-10">
+                        ${currentItem.desc}
+                    </p>
+                    <h4 class="text-lg font-bold mb-6 border-b pb-2 text-gray-900">产品/服务详情</h4>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 mb-10">
+                        ${currentItem.features.map(f => `
+                            <li class="flex items-center text-gray-600 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                                <i class="fas fa-check-circle text-black mr-3 text-lg"></i>
+                                <span class="font-medium text-sm">${f}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+
+            // 渲染底部购买栏
+            actionBar.innerHTML = `
+                <div>
+                    <p class="text-xs text-gray-500 uppercase font-bold mb-1">价格明细</p>
+                    <p class="text-3xl font-black tracking-tight text-gray-900">¥${currentItem.price.toLocaleString()}</p>
+                </div>
+                <button onclick="addToCart(event)" class="bg-black text-white px-8 py-4 rounded-2xl font-bold hover:bg-gray-800 hover:shadow-xl transition-all flex items-center gap-2 transform active:scale-95">
+                    <i class="fas fa-cart-plus"></i>
+                    <span>加入购物车</span>
+                </button>
+            `;
+
+            // 动画开场
+            const modal = document.getElementById('detail-modal');
+            const container = document.getElementById('detail-container');
+            
+            modal.classList.remove('hidden');
+            void modal.offsetWidth; // 触发重绘
+            modal.classList.remove('opacity-0');
+            container.classList.remove('translate-y-full');
+            document.body.style.overflow = 'hidden';
+            
+            // 主页推远动效
+            document.querySelector('main').style.transform = 'scale(0.97)';
+            document.querySelector('header').style.transform = 'scale(0.97)';
+            document.querySelector('nav').style.transform = 'translateY(-100%)';
+        }
+
+        function closeDetail() {
+            const modal = document.getElementById('detail-modal');
+            const container = document.getElementById('detail-container');
+            
+            modal.classList.add('opacity-0');
+            container.classList.add('translate-y-full');
+            
+            document.querySelector('main').style.transform = 'scale(1)';
+            document.querySelector('header').style.transform = 'scale(1)';
+            document.querySelector('nav').style.transform = 'translateY(0)';
+            document.body.style.overflow = 'auto';
+
+            setTimeout(() => { modal.classList.add('hidden'); }, 500);
+        }
+
+        // --- 购物车与结账逻辑 ---
+        function addToCart(event) {
+            if(!currentItem) return;
+            
+            const existingItem = cart.find(item => item.id === currentItem.id);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ ...currentItem, qty: 1 });
+            }
+            
+            updateCartUI();
+            
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fas fa-check"></i> <span>已加入</span>';
+            btn.classList.add("bg-green-600");
+            btn.classList.remove("bg-black");
+            
+            // 自动关闭详情并拉出结账页
+            setTimeout(() => {
+                closeDetail();
+                setTimeout(() => toggleCart(), 400); // 等待详情页关毕
+            }, 800);
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
         function updateCartUI() {
-            // 更新导航栏数量
-            document.getElementById('cart-count').innerText = cart.length;
+            const countSpan = document.getElementById('cart-count');
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            countSpan.innerText = totalQty;
+            countSpan.style.transform = totalQty > 0 ? 'scale(1)' : 'scale(0)';
 
-            // 更新模态框内的列表
-            const container = document.getElementById('cart-items-container');
-            const totalEl = document.getElementById('cart-total');
-            const payBtn = document.getElementById('pay-btn');
-
-            container.innerHTML = '';
-            let total = 0;
+            const cartItemsContainer = document.getElementById('cart-items');
+            const emptyMsg = document.getElementById('empty-cart-msg');
+            const hasItemsContainer = document.getElementById('cart-has-items');
+            const totalSpan = document.getElementById('cart-total');
 
             if (cart.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #999;">购物车是空的</p>';
-                payBtn.disabled = true;
+                emptyMsg.classList.remove('hidden');
+                hasItemsContainer.classList.add('hidden');
             } else {
-                cart.forEach((item, index) => {
-                    total += item.price;
-                    const div = document.createElement('div');
-                    div.className = 'cart-item';
-                    div.innerHTML = `
-                        <span>${item.name}</span>
-                        <span>¥ ${item.price.toLocaleString()} <a href="#" onclick="removeItem(${index})" style="color:red; font-size:0.8rem; margin-left:5px;">[删除]</a></span>
+                emptyMsg.classList.add('hidden');
+                hasItemsContainer.classList.remove('hidden');
+                hasItemsContainer.classList.add('flex');
+                
+                let total = 0;
+                cartItemsContainer.innerHTML = cart.map(item => {
+                    const lineTotal = item.price * item.qty;
+                    total += lineTotal;
+                    return `
+                        <div class="bg-gray-50 p-4 rounded-2xl flex justify-between items-center border border-gray-100 group">
+                            <div class="flex-1 pr-4">
+                                <h4 class="font-bold text-gray-900 text-sm mb-1">${item.name}</h4>
+                                <p class="text-xs text-gray-500 font-medium">¥${item.price.toLocaleString()} x ${item.qty}</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="font-bold text-sm text-black">¥${lineTotal.toLocaleString()}</span>
+                                <button onclick="removeFromCart('${item.id}')" class="text-gray-300 hover:text-red-500 transition-colors">
+                                    <i class="fas fa-minus-circle text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
                     `;
-                    container.appendChild(div);
-                });
-                payBtn.disabled = false;
-            }
-
-            totalEl.innerText = total.toLocaleString();
-        }
-
-        // 移除商品
-        function removeItem(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        // 打开购物车模态框
-        function openCart() {
-            // 重置视图
-            document.getElementById('checkout-view').style.display = 'block';
-            document.getElementById('success-view').style.display = 'none';
-            
-            const modal = document.getElementById('cartModal');
-            modal.style.display = 'flex';
-        }
-
-        // 关闭购物车
-        function closeCart() {
-            document.getElementById('cartModal').style.display = 'none';
-        }
-
-        // 点击模态框外部关闭
-        window.onclick = function(event) {
-            const modal = document.getElementById('cartModal');
-            if (event.target == modal) {
-                closeCart();
+                }).join('');
+                totalSpan.innerText = `¥${total.toLocaleString()}`;
             }
         }
 
-        // 模拟支付处理
-        function processPayment(e) {
-            e.preventDefault(); // 阻止表单默认提交
+        // --- 结账抽屉动画 ---
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            const container = document.getElementById('cart-container');
             
-            const payBtn = document.getElementById('pay-btn');
-            const originalText = payBtn.innerText;
-            
-            // 模拟加载状态
-            payBtn.innerText = "处理中...";
-            payBtn.disabled = true;
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                void modal.offsetWidth;
+                modal.classList.remove('opacity-0');
+                container.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('opacity-0');
+                container.classList.add('translate-x-full');
+                document.body.style.overflow = 'auto';
+                setTimeout(() => { modal.classList.add('hidden'); }, 500);
+            }
+        }
 
-            // 模拟网络延迟 (2秒)
+        // --- 模拟真实结账 ---
+        function processPayment(event) {
+            event.preventDefault(); // 阻止表单真实提交
+            const btn = document.getElementById('pay-btn');
+            
+            // 按钮 Loading 状态
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> 处理付款中...';
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+            
+            // 模拟 2 秒网络请求后显示成功页面
             setTimeout(() => {
-                // 支付成功逻辑
-                cart = []; // 清空购物车
-                updateCartUI();
+                const orderNum = 'WW' + Math.floor(Math.random() * 8999999 + 1000000);
+                const content = document.getElementById('checkout-content');
                 
-                document.getElementById('checkout-view').style.display = 'none';
-                document.getElementById('success-view').style.display = 'block';
+                content.innerHTML = `
+                    <div class="flex flex-col items-center justify-center text-center h-full py-10 animate-fade-in">
+                        <div class="w-24 h-24 bg-black rounded-full flex items-center justify-center text-white text-4xl mb-6 shadow-2xl">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h2 class="text-3xl font-black tracking-tight mb-2 text-gray-900">支付成功</h2>
+                        <p class="text-gray-500 mb-8 font-medium">感谢您在 WW LTD 选购产品与服务。</p>
+                        
+                        <div class="bg-gray-50 p-6 rounded-2xl w-full text-left space-y-3 mb-8 text-sm border border-gray-100">
+                            <div class="flex justify-between border-b border-gray-200 pb-3">
+                                <span class="text-gray-500 font-medium">订单编号</span>
+                                <span class="font-mono font-bold text-black">${orderNum}</span>
+                            </div>
+                            <div class="flex justify-between pt-1">
+                                <span class="text-gray-500 font-medium">支付金额</span>
+                                <span class="font-bold text-black">${document.getElementById('cart-total').innerText}</span>
+                            </div>
+                            <div class="flex justify-between pt-1">
+                                <span class="text-gray-500 font-medium">订单状态</span>
+                                <span class="text-green-600 font-bold"><i class="fas fa-circle text-[10px] mr-1"></i>已确认</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="location.reload()" class="bg-gray-100 text-black w-full py-4 rounded-2xl font-bold hover:bg-gray-200 transition">完成并返回首页</button>
+                    </div>
+                `;
                 
-                // 恢复按钮状态以便下次使用
-                payBtn.innerText = originalText;
-                payBtn.disabled = false;
-                document.getElementById('payment-form').reset();
-                
+                // 清空数据
+                cart = [];
+                const countSpan = document.getElementById('cart-count');
+                countSpan.innerText = '0';
+                countSpan.style.transform = 'scale(0)';
             }, 2000);
         }
+
+        // 页面初始化渲染
+        document.addEventListener('DOMContentLoaded', renderItems);
     </script>
 </body>
 </html>
